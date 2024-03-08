@@ -15,7 +15,7 @@ metadata:
     heritage: Helm
     release: kube-prometheus-stack
 spec:
-  externalUrl: http://kube-prometheus-stack-alertmanager.monitoring:80
+  externalUrl: http://kube-prometheus-stack-alertmanager.monitoring:9093
   image: quay.io/prometheus/alertmanager:v0.25.0
   listenLocal: false
   logFormat: logfmt
@@ -55,7 +55,7 @@ spec:
       protocol: TCP
       targetPort: 9093
   selector:
-    alertmanager: prometheus-stack-alertmanager
+    alertmanager: kube-prometheus-stack-alertmanager
     app.kubernetes.io/name: alertmanager
   type: ClusterIP
 ---
@@ -73,5 +73,5 @@ metadata:
     chart: kube-prometheus-stack-39.9.0
     heritage: Helm
     release: "prometheus-stack"
-  name: prometheus-stack-alertmanager
+  name: kube-prometheus-stack-alertmanager
   namespace: monitoring
