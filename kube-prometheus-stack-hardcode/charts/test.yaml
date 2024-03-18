@@ -1,0 +1,22 @@
+apiVersion: monitoring.coreos.com/v1alpha1
+kind: AlertmanagerConfig
+metadata:
+  namespace: monitoring
+  name: alertmanager-config
+  labels:
+    alertmanagerConfig: alert
+spec:
+  route:
+    receiver: 'email-notifications'
+    groupBy: [severity]
+  receivers:
+    - name: 'email-notifications'
+      emailConfigs:
+      - to: 'my-email@gmail.com'
+        from: 'my-email@gmail.com'
+        smarthost: smtp.gmail.com:587
+        authUsername: 'my-email@gmail.com'
+        authIdentity: 'my-email@gmail.com'
+        authPassword:
+          name: 'authpassword'
+          key: 'password'

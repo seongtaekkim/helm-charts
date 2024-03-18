@@ -60,6 +60,9 @@ rules:
 apiVersion: monitoring.coreos.com/v1
 kind: Prometheus
 metadata:
+  annotations:
+    meta.helm.sh/release-name: prometheus-stack
+    meta.helm.sh/release-namespace: monitoring
   name: prometheus-stack-kube-prom-prometheus
   namespace: monitoring
   labels:
