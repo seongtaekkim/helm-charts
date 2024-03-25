@@ -1,0 +1,133 @@
+alertmanager:
+  ingress:
+    enabled: true
+    ingressClassName: alb
+    annotations:
+      alb.ingress.kubernetes.io/scheme: internet-facing
+      alb.ingress.kubernetes.io/target-type: ip
+        #alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}, {"HTTP":80}]'
+        #  alb.ingress.kubernetes.io/certificate-arn:
+        #alb.ingress.kubernetes.io/success-codes: 200-399
+      #alb.ingress.kubernetes.io/group.name: "monitoring"
+    paths:
+      - /*
+
+grafana:
+  defaultDashboardsTimezone: Asia/Seoul
+  adminPassword: prom-operator
+  ingress:
+    enabled: true
+    ingressClassName: alb
+    annotations:
+      alb.ingress.kubernetes.io/scheme: internet-facing
+      alb.ingress.kubernetes.io/target-type: ip
+        #alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}, {"HTTP":80}]'
+        #alb.ingress.kubernetes.io/certificate-arn:
+        #alb.ingress.kubernetes.io/success-codes: 200-399
+      #alb.ingress.kubernetes.io/group.name: "monitoring"
+    paths:
+      - /*
+
+prometheus:
+  ingress:
+    enabled: true
+    ingressClassName: alb
+    annotations:
+      alb.ingress.kubernetes.io/scheme: internet-facing
+      alb.ingress.kubernetes.io/target-type: ip
+        #alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}, {"HTTP":80}]'
+        # alb.ingress.kubernetes.io/certificate-arn:
+        #alb.ingress.kubernetes.io/success-codes: 200-399
+      #alb.ingress.kubernetes.io/group.name: "monitoring"
+    paths:
+      - /*
+  prometheusSpec:
+    serviceMonitorSelectorNilUsesHelmValues: false
+    retention: 5d
+    retentionSize: "10GiB"
+
+
+#
+#prometheus:
+#  prometheusSpec:
+#    storageSpec:
+#      volumeClaimTemplate:
+#        spec:
+#          storageClassName: "managed-nfs-storage"
+#          accessModes:
+#            - "ReadWriteOnce"
+#          resources:
+#            requests:
+#              storage: "8Gi"
+
+#kubeEtcd:
+#  service:
+#    enabled: true
+#    port: 2381
+#    targetPort: 2381
+
+#alertmanager:
+#  enabled: true
+#  config:
+#    global:
+#      resolve_timeout: 10m
+#      slack_api_url: Slack-URL
+#    inhibit_rules:
+#    receivers:
+#      - name: default-receiver
+#      - name: slack
+#        slack_configs:
+#          - send_resolved: true
+#            title: '[{{.Status | toUpper}}] {{ .CommonLabels.alertname }}'
+#            text: |
+#              *Description:*
+#              {{ .CommonAnnotations.description }}
+#    route:
+#      group_by:
+#      group_interval: 1m
+#      group_wait: 10s
+#      receiver: slack
+#      repeat_interval: 5m
+#      routes:
+#        - receiver: slack
+
+
+additionalPrometheusRulesMap:
+  container-metrics:
+    groups:
+      - name: kubernetes-containers-metric
+        interval: 10s
+        rules:
+          - record: container:memory_working_set:topk3
+            expr: topk(3,sum(container_memory_working_set_bytes{pod!=""}/1024/1024) by (pod))
+  node-metrics:
+    groups:
+      - name: kubernetes-node-metric
+        interval: 10s
+        rules:
+          - record: instance:node_cpu_seconds_userspace:rate2m
+            expr: sum(rate(node_cpu_seconds_total{mode="user"}[2m])) by (instance)
+          - record: node:node_memory:usage
+            expr: |-
+              100 - 100 * (
+                (node_memory_MemTotal_bytes
+                  - node_memory_MemFree_bytes
+                  - node_memory_Buffers_bytes
+                  - node_memory_Cached_bytes
+                  - node_memory_SReclaimable_bytes
+                )
+                  /
+                  node_memory_MemTotal_bytes
+              )
+  alert:
+    groups:
+      - name: prometheus-operator
+        rules:
+          - alert: PrometheusOperatorDown
+            annotations:
+              title: "Prometheus operator DOWN!!!"
+              description: "prometheus-operator is out of service status"
+              summary: "[P1, Critical]: Prometheus operator has been shutdown or evicted status unexpectedly."
+            expr: |
+              ((sum(prometheus_operator_ready)) or vector(0)) == 0
+            for: 30s
