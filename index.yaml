@@ -10,7 +10,7 @@ entries:
       artifacthub.io/operator: "true"
     apiVersion: v2
     appVersion: 0.58.0
-    created: "2024-04-27T12:59:05.280009+09:00"
+    created: "2024-04-27T13:05:53.834911+09:00"
     dependencies:
     - condition: kubeStateMetrics.enabled
       name: kube-state-metrics
@@ -62,12 +62,12 @@ entries:
   springboot-helloworld:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2024-04-27T12:59:05.280175+09:00"
+    created: "2024-04-27T13:05:53.835213+09:00"
     description: A Helm chart for Kubernetes
-    digest: c3fe3ffd8b6ffbfaf1bcd709bf5f7cb0dbb2a50bd595f4ee9e7be39c0b4c32a0
+    digest: 55d0ba5fdea1f7da158b672ebcf7057a9d5f92773b36648066a565242aaebcf1
     name: springboot-helloworld
     type: application
     urls:
-    - springboot-helloworld-0.1.1.tgz
-    version: 0.1.1
-generated: "2024-04-27T12:59:05.263027+09:00"
+    - springboot-helloworld-0.1.2.tgz
+    version: 0.1.2
+generated: "2024-04-27T13:05:53.819234+09:00"
