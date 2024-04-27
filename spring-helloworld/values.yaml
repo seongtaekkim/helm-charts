@@ -1,0 +1,13 @@
+image: "738612635754.dkr.ecr.ap-northeast-2.amazonaws.com/stecr:latest"
+
+resources:
+  requests:
+    cpu: "1m"
+    memory: "128Mi"
+  limits:
+    cpu: "1m"
+    memory: "128Mi"
+
+ingress:
+  enabled: true
+  # host: ""
