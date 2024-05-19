@@ -10,7 +10,7 @@ entries:
       artifacthub.io/operator: "true"
     apiVersion: v2
     appVersion: 0.58.0
-    created: "2024-05-19T16:51:26.415926+09:00"
+    created: "2024-05-19T16:55:31.790717+09:00"
     dependencies:
     - condition: kubeStateMetrics.enabled
       name: kube-state-metrics
@@ -28,7 +28,7 @@ entries:
       and Prometheus rules combined with documentation and scripts to provide easy
       to operate end-to-end Kubernetes cluster monitoring with Prometheus using the
       Prometheus Operator.
-    digest: dd74e253c2953116081d575cc29311e82a30b08361a8703c93c03646fd958e47
+    digest: 88ca70839f4d0e1eedc21a44bc2b2a8aac837c237bc27f5a82c3e1f6cad18aa3
     home: https://github.com/prometheus-operator/kube-prometheus
     icon: https://raw.githubusercontent.com/prometheus/prometheus.github.io/master/assets/prometheus_logo-cb55bb5c346.png
     keywords:
@@ -62,7 +62,7 @@ entries:
   springboot-helloworld:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2024-05-19T16:51:26.416361+09:00"
+    created: "2024-05-19T16:55:31.791188+09:00"
     description: A Helm chart for Kubernetes
     digest: 55d0ba5fdea1f7da158b672ebcf7057a9d5f92773b36648066a565242aaebcf1
     name: springboot-helloworld
@@ -70,4 +70,4 @@ entries:
     urls:
     - springboot-helloworld-0.1.2.tgz
     version: 0.1.2
-generated: "2024-05-19T16:51:26.398233+09:00"
+generated: "2024-05-19T16:55:31.772218+09:00"
