@@ -27,6 +27,13 @@ spec:
         ports:
         - containerPort: 3306
           name: mysql
+        volumeMounts:
+        - name: ebs-volume
+          mountPath: /var/lib/mysql
+      volumes:
+      - name: ebs-volume
+        persistentVolumeClaim:
+          claimName: grafana-mysql-pvc
 ---
 apiVersion: v1
 kind: Service
