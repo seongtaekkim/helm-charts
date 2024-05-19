@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: monitoring
+  name: mysql
+spec:
+  selector:
+    matchLabels:
+      app: mysql
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+      - image: mysql/mysql-server:latest
+        name: mysql
+        env:
+        - name: MYSQL_USER
+          value: grafana
+        - name: MYSQL_PASSWORD
+          value: grafana
+        - name: MYSQL_ROOT_PASSWORD
+          value: grafana
+        - name: MYSQL_DATABASE
+          value: grafana
+        ports:
+        - containerPort: 3306
+          name: mysql
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-service
+  namespace: monitoring
+spec:
+  selector:
+    app: mysql
+  ports:
+    - protocol: TCP
+      name: mysql-port
+      port: 3306
+      targetPort: 3306
